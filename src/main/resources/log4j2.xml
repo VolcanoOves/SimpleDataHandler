@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration status="info">
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %t [%p] %c{1} (%F:%L) : %msg%n"/>
+        </Console>
+
+        <File name="ERROR-LOG" fileName="/data/logs/study-error.log" append="false">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+        </File>
+        <File name="WARN-LOG" fileName="/data/logs/study-warn.log" append="=false">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+            <Filters>
+                <!--warn和error级别的日志会进入warn.log-->
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </File>
+
+    </appenders>
+    <loggers>
+        <root level="info">
+            <!--控制台输出推荐只在本地调试时使用，线上将该配置去掉-->
+            <appender-ref ref="Console"/>
+<!--                        <appender-ref ref="ERROR-LOG"/>                &lt;!&ndash;ERROR日志单独输出到一个文件&ndash;&gt;-->
+<!--                        <appender-ref ref="WARN-LOG"/>                 &lt;!&ndash;ERROR&WARN日志单独输出到一个文件&ndash;&gt;-->
+        </root>
+    </loggers>
+
+</configuration>
