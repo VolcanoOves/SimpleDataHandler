@@ -12,7 +12,7 @@ import java.util.List;
  * @Date: 2020/8/3
  * @Description:
  */
-public interface DataHandler {
+public interface DataHandler<T> {
 
     /**
      * 按照筛选条件输出筛选之后的结果
@@ -22,8 +22,7 @@ public interface DataHandler {
      * @param orderBy 排序
      * @param groupBy 分组
      * @param limit   分页
-     * @param <T>     数据类型
      * @return 筛选结果
      */
-    <T> List<T> query(List<T> data, Where<T> where, OrderBy<T> orderBy, GroupBy<T> groupBy, Limit limit);
+    List<T> query(List<T> data, Where<T> where, OrderBy<T> orderBy, GroupBy<T, ?> groupBy, Limit limit);
 }

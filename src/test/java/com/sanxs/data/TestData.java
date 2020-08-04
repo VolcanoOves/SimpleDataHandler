@@ -1,6 +1,6 @@
 package com.sanxs.data;
 
-import lombok.Builder;
+import cn.hutool.json.JSONUtil;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,8 +11,10 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@Builder
 public class TestData {
+
+    public TestData() {
+    }
 
     /**
      * 自增长ID
@@ -36,11 +38,6 @@ public class TestData {
 
     @Override
     public String toString() {
-        return "{ " +
-                "id=" + id +
-                ", name=" + name +
-                ", age=" + age +
-                ", gender=" + gender +
-                " }";
+        return JSONUtil.toJsonStr(this);
     }
 }

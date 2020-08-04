@@ -1,14 +1,18 @@
 package com.sanxs.matcher;
 
 import com.sanxs.matcher.function.GroupMatchFunction;
+import com.sanxs.matcher.function.gorup.AbstractGroupByAggregateHandler;
 import lombok.Getter;
 
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * @Author: Yang shan
@@ -16,28 +20,47 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Description:
  */
 @Getter
-public class GroupBy<T> {
-    private final Map<GroupKey<T>, List<T>> data;
-    private final List<GroupMatchFunction<T, ?>> groupMatchFunctions;
+public class GroupBy<Data, GroupData extends Data> {
 
-    public GroupBy() {
-        this.data = new ConcurrentHashMap<>();
+    /**
+     * 需要进行group的字段列表
+     */
+    private final List<GroupMatchFunction<Data, ?>> groupMatchFunctions;
+    private final List<AbstractGroupByAggregateHandler<Data, GroupData, ?, ?>> aggregateHandlers;
+    private final Class<GroupData> groupDataClass;
+
+    public GroupBy(Class<GroupData> clazz) {
         this.groupMatchFunctions = new LinkedList<>();
+        this.aggregateHandlers = new LinkedList<>();
+        this.groupDataClass = clazz;
     }
 
-    public GroupBy<T> append(GroupMatchFunction<T, ?> groupByKey) {
+    public GroupBy<Data, GroupData> appendKey(GroupMatchFunction<Data, ?> groupByKey) {
         this.groupMatchFunctions.add(groupByKey);
         return this;
     }
 
-    @Getter
-    public static class GroupKey<T> {
-        private String key;
+    public GroupBy<Data, GroupData> appendAggregate(AbstractGroupByAggregateHandler<Data, GroupData, ?, ?> groupByKey) {
+        this.aggregateHandlers.add(groupByKey);
+        return this;
+    }
 
-        public GroupKey(Collection<GroupMatchFunction<T, ?>> groupByKeysOperation, T data) {
+
+    @Getter
+    @SuppressWarnings("unchecked")
+    public static class GroupKey<Data> {
+        private final String key;
+        private Data objectKey;
+
+        public GroupKey(Collection<GroupMatchFunction<Data, ?>> groupByKeysOperation, Data data) {
             StringBuilder keysBuilder = new StringBuilder();
-            for (GroupMatchFunction<T, ?> cache : groupByKeysOperation) {
-                keysBuilder.append(getFieldNameAndValue(cache, data));
+            try {
+                this.objectKey = (Data) data.getClass().newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new RuntimeException("Requires no-parameter construction method " + data.getClass().getName());
+            }
+            for (Function<Data, ?> cache : groupByKeysOperation) {
+                keysBuilder.append(getFieldNameAndValue(cache, data, this.objectKey));
             }
             this.key = keysBuilder.toString();
         }
@@ -50,7 +73,7 @@ public class GroupBy<T> {
             if (o == null || getClass() != o.getClass()) {
                 return false;
             }
-            GroupKey groupKey = (GroupKey) o;
+            GroupKey<Data> groupKey = (GroupKey<Data>) o;
             return Objects.equals(key, groupKey.key);
         }
 
@@ -64,10 +87,10 @@ public class GroupBy<T> {
      * lambda 方式取得该对象的方法名以及字段值组成一个key
      *
      * @param groupMatchFunction function
-     * @param data               数据对象
+     * @param source             数据对象
      * @return group key [methodName:<value>]
      */
-    static <T> String getFieldNameAndValue(GroupMatchFunction<T, ?> groupMatchFunction, T data) {
+    static <T> String getFieldNameAndValue(Function<T, ?> groupMatchFunction, T source, T target) {
         // 从function取出序列化方法
         Method writeReplaceMethod;
         try {
@@ -101,13 +124,13 @@ public class GroupBy<T> {
         try {
             field = Class.forName(serializedLambda.getImplClass().replace("/", ".")).getDeclaredField(fieldName);
             field.setAccessible(true);
-            value = field.get(data);
+            value = field.get(source);
+            field.set(target, value);
         } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
 
         return String.format("[%s:%s]", field.getName(), value != null ? "<" + value.toString() + ">" : null);
     }
-
 
 }
