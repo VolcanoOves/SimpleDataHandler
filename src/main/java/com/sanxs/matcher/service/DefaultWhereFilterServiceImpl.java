@@ -19,8 +19,8 @@ import java.util.concurrent.Future;
  **/
 public class DefaultWhereFilterServiceImpl<Data> implements WhereFilterService<Data> {
 
-    private int processors = Runtime.getRuntime().availableProcessors();
-    private ExecutorService executorService = Executors.newFixedThreadPool(processors);
+    private final int processors = Runtime.getRuntime().availableProcessors();
+    private final ExecutorService executorService = Executors.newFixedThreadPool(processors);
 
     @Override
     public synchronized List<Data> apply(List<Data> data, Where<Data> where) {

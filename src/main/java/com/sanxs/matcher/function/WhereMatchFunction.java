@@ -7,6 +7,5 @@ package com.sanxs.matcher.function;
  */
 @FunctionalInterface
 public interface WhereMatchFunction<T> {
-
     boolean match(T data);
 }

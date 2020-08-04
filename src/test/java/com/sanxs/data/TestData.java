@@ -16,6 +16,13 @@ public class TestData {
     public TestData() {
     }
 
+    public TestData(Long id, String name, Integer age, Integer gender) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+    }
+
     /**
      * 自增长ID
      */

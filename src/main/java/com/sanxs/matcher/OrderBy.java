@@ -26,12 +26,13 @@ public class OrderBy<T> {
      *
      * @param orderMatchFunction 排序匹配
      */
-    public void appendAsc(OrderMatchFunction<T, ?> orderMatchFunction) {
+    public OrderBy<T> appendAsc(OrderMatchFunction<T, ?> orderMatchFunction) {
         OrderModel<T> orderModel = new OrderModel<>();
         orderModel.setAsc(true);
         orderModel.setOrderMatchFunction(orderMatchFunction);
 
         this.orderMatchFunctions.add(orderModel);
+        return this;
     }
 
     /**
@@ -39,12 +40,13 @@ public class OrderBy<T> {
      *
      * @param orderMatchFunction 排序匹配
      */
-    public void appendDesc(OrderMatchFunction<T, ?> orderMatchFunction) {
+    public OrderBy<T> appendDesc(OrderMatchFunction<T, ?> orderMatchFunction) {
         OrderModel<T> orderModel = new OrderModel<>();
         orderModel.setAsc(false);
         orderModel.setOrderMatchFunction(orderMatchFunction);
 
         this.orderMatchFunctions.add(orderModel);
+        return this;
     }
 
     @Getter
