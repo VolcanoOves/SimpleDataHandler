@@ -50,7 +50,7 @@ public class GroupBy<Data, GroupData extends Data> {
     @SuppressWarnings("unchecked")
     public static class GroupKey<Data> {
         private final String key;
-        private Data objectKey;
+        private final Data objectKey;
 
         public GroupKey(Collection<GroupMatchFunction<Data, ?>> groupByKeysOperation, Data data) {
             StringBuilder keysBuilder = new StringBuilder();

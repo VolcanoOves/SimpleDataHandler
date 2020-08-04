@@ -109,4 +109,35 @@ public class FunctionUtils {
 
     }
 
+    /**
+     * 获取字段名称
+     *
+     * @param groupMatchFunction
+     * @param <T>
+     * @param <V>
+     * @return
+     */
+    public static <T, V> String getMethodName(Function<T, V> groupMatchFunction) {
+        // 从function取出序列化方法
+        Method writeReplaceMethod;
+
+        try {
+            writeReplaceMethod = groupMatchFunction.getClass().getDeclaredMethod("writeReplace");
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+
+        // 从序列化方法取出序列化的lambda信息
+        boolean isAccessible = writeReplaceMethod.isAccessible();
+        writeReplaceMethod.setAccessible(true);
+        SerializedLambda serializedLambda;
+        try {
+            serializedLambda = (SerializedLambda) writeReplaceMethod.invoke(groupMatchFunction);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+        writeReplaceMethod.setAccessible(isAccessible);
+        return serializedLambda.getImplMethodName();
+    }
+
 }

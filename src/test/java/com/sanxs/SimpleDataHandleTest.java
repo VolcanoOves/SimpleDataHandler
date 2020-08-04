@@ -5,6 +5,7 @@ import com.sanxs.data.TestData;
 import com.sanxs.intf.DataHandler;
 import com.sanxs.matcher.GroupBy;
 import com.sanxs.matcher.Limit;
+import com.sanxs.matcher.OrderBy;
 import com.sanxs.matcher.Where;
 import com.sanxs.matcher.function.gorup.Aggregates;
 import lombok.extern.slf4j.Slf4j;
@@ -82,13 +83,14 @@ public class SimpleDataHandleTest {
     public void singleGroupTest() {
         GroupBy<TestData, GroupTestData> groupBy = new GroupBy<>(GroupTestData.class);
 
-        groupBy
-                .appendAggregate(Aggregates.avg(TestData::getAge, GroupTestData::setAvgAge))    // 求平均数
-                .appendAggregate(Aggregates.max(TestData::getId, GroupTestData::setMaxId));     // 最大ID
-
-
         // 设置 group by 的字段
         groupBy.appendKey(TestData::getGender);
+
+        groupBy
+                .appendAggregate(Aggregates.avg(TestData::getAge, GroupTestData::setAvgAge))    // 求平均数
+                .appendAggregate(Aggregates.max(TestData::getId, GroupTestData::setMaxId))      // 最大ID
+                .appendAggregate(Aggregates.count(TestData::getId, GroupTestData::setCountId)); // 统计计数
+
 
         this.printlnAllData(DATA_LIST);
         List<TestData> result = DATA_HANDLER.query(DATA_LIST, null, null, groupBy, null);
@@ -100,16 +102,130 @@ public class SimpleDataHandleTest {
      */
     @Test
     public void multiGroupTest() {
+        GroupBy<TestData, GroupTestData> groupBy = new GroupBy<>(GroupTestData.class);
 
+        // 设置 group by 的字段
+        groupBy
+                .appendKey(TestData::getGender)
+                .appendKey(TestData::getAge);
+
+        groupBy
+                .appendAggregate(Aggregates.avg(TestData::getAge, GroupTestData::setAvgAge))    // 求平均数
+                .appendAggregate(Aggregates.max(TestData::getId, GroupTestData::setMaxId))      // 最大ID
+                .appendAggregate(Aggregates.count(TestData::getId, GroupTestData::setCountId)); // 统计计数
+
+
+        this.printlnAllData(DATA_LIST);
+        List<TestData> result = DATA_HANDLER.query(DATA_LIST, null, null, groupBy, null);
+        this.printlnMatchData(result);
     }
 
+
+    /**
+     * 单个排序测试
+     */
+    @Test
+    public void singleOrderByTest() {
+        OrderBy<TestData> orderBy = new OrderBy<>();
+        orderBy.appendDesc(TestData::getAge);
+
+        this.printlnAllData(DATA_LIST);
+        List<TestData> result = DATA_HANDLER.query(DATA_LIST, null, orderBy, null, null);
+        this.printlnMatchData(result);
+    }
+
+    /**
+     * 多个排序测试
+     */
+    @Test
+    public void multiOrderByTest() {
+        OrderBy<TestData> orderBy = new OrderBy<>();
+        orderBy.appendDesc(TestData::getAge);
+        orderBy.appendAsc(TestData::getId);
+
+        this.printlnAllData(DATA_LIST);
+        List<TestData> result = DATA_HANDLER.query(DATA_LIST, null, orderBy, null, null);
+        this.printlnMatchData(result);
+    }
+
+    /**
+     * 分页处理器
+     */
     @Test
     public void limitTest() {
-        Limit limit = new Limit(5, 5);
+        Limit limit = new Limit(49, 5);
         this.printlnAllData(DATA_LIST);
         List<TestData> result = DATA_HANDLER.query(DATA_LIST, null, null, null, limit);
         this.printlnMatchData(result);
     }
+
+    /**
+     * Group and order 进行排序
+     * 同时以group聚合之后的字段进行排序
+     */
+    @Test
+    public void groupAndOrder() {
+        OrderBy<TestData> orderBy = new OrderBy<>();
+        orderBy.appendAsc(TestData::getId);
+
+        // TODO 带完善
+        this.printlnAllData(DATA_LIST);
+        List<TestData> result = DATA_HANDLER.query(DATA_LIST, null, orderBy, null, null);
+        this.printlnMatchData(result);
+    }
+
+    /**
+     * 分组加分页
+     */
+    @Test
+    public void groupAndLimit() {
+        GroupBy<TestData, GroupTestData> groupBy = new GroupBy<>(GroupTestData.class);
+
+        // 设置 group by 的字段
+        groupBy
+                .appendKey(TestData::getGender)
+                .appendKey(TestData::getAge);
+
+        groupBy
+                .appendAggregate(Aggregates.avg(TestData::getAge, GroupTestData::setAvgAge))    // 求平均数
+                .appendAggregate(Aggregates.max(TestData::getId, GroupTestData::setMaxId))      // 最大ID
+                .appendAggregate(Aggregates.count(TestData::getId, GroupTestData::setCountId)); // 统计计数
+
+        Limit limit = new Limit(0, 10);
+
+        this.printlnAllData(DATA_LIST);
+        List<TestData> result = DATA_HANDLER.query(DATA_LIST, null, null, groupBy, limit);
+        this.printlnMatchData(result);
+    }
+
+    /**
+     * 条件加分组
+     */
+    @Test
+    public void whereAndGroup() {
+        GroupBy<TestData, GroupTestData> groupBy = new GroupBy<>(GroupTestData.class);
+
+        // 设置 group by 的字段
+        groupBy
+                .appendKey(TestData::getGender)
+                .appendKey(TestData::getAge);
+
+        groupBy
+                .appendAggregate(Aggregates.avg(TestData::getAge, GroupTestData::setAvgAge))    // 求平均数
+                .appendAggregate(Aggregates.max(TestData::getId, GroupTestData::setMaxId))      // 最大ID
+                .appendAggregate(Aggregates.count(TestData::getId, GroupTestData::setCountId)); // 统计计数
+
+        Where<TestData> where = new Where<>();
+
+        where
+                .and((item) -> item.getAge() > 50)
+                .and((item) -> item.getGender() == 1);
+
+        this.printlnAllData(DATA_LIST);
+        List<TestData> result = DATA_HANDLER.query(DATA_LIST, where, null, groupBy, null);
+        this.printlnMatchData(result);
+    }
+
 
     /**
      * 输出匹配前的数据

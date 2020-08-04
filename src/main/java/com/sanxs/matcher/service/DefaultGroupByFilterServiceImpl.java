@@ -62,15 +62,15 @@ public class DefaultGroupByFilterServiceImpl<Data> implements GroupByFilterServi
                     } catch (InstantiationException | IllegalAccessException e) {
                         e.printStackTrace();
                     }
-                } else {
-                    // 在遍历的过程中进行聚合统计
-                    for (AbstractGroupByAggregateHandler<Data, GroupData, ?, ?> handler : groupBy.getAggregateHandlers()) {
-                        // 通过源对象的class作为索引查找出clone对象
-                        AbstractGroupByAggregateHandler<Data, GroupData, ?, ?> clone = handlerMap.get(groupKey.getKey() + "." + handler.getClass().getName());
-                        // 这里在分组隔离的副本当中聚合统计
-                        clone.handle(item);
-                    }
                 }
+                // 在遍历的过程中进行聚合统计
+                for (AbstractGroupByAggregateHandler<Data, GroupData, ?, ?> handler : groupBy.getAggregateHandlers()) {
+                    // 通过源对象的class作为索引查找出clone对象
+                    AbstractGroupByAggregateHandler<Data, GroupData, ?, ?> clone = handlerMap.get(groupKey.getKey() + "." + handler.getClass().getName());
+                    // 这里在分组隔离的副本当中聚合统计
+                    clone.handle(item);
+                }
+
             });
 
             // 当这里所有group已经处理完成之后

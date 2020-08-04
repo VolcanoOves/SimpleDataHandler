@@ -5,14 +5,9 @@ import com.sanxs.matcher.GroupBy;
 import com.sanxs.matcher.Limit;
 import com.sanxs.matcher.OrderBy;
 import com.sanxs.matcher.Where;
-import com.sanxs.matcher.service.DefaultGroupByFilterServiceImpl;
-import com.sanxs.matcher.service.DefaultWhereFilterServiceImpl;
-import com.sanxs.matcher.service.GroupByFilterService;
-import com.sanxs.matcher.service.WhereFilterService;
+import com.sanxs.matcher.service.*;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -24,14 +19,30 @@ import java.util.List;
 public class SimpleDataHandler<Data> implements DataHandler<Data> {
 
     /**
-     * 默认的where处理器
+     * 默认的where罗辑
      */
     private final WhereFilterService<Data> whereFilterService;
+
+    /**
+     * 分组处理罗辑
+     */
     private final GroupByFilterService<Data> groupByFilterService;
+
+    /**
+     * 排序处理罗辑
+     */
+    private final OrderByFilterService<Data> orderByFilterService;
+
+    /**
+     * 分页处理罗辑
+     */
+    private final LimitFilterService<Data> limitFilterService;
 
     public SimpleDataHandler() {
         this.whereFilterService = new DefaultWhereFilterServiceImpl<>();
         this.groupByFilterService = new DefaultGroupByFilterServiceImpl<>();
+        this.orderByFilterService = new DefaultOrderByFilterServiceImpl<>();
+        this.limitFilterService = new LimitFilterServiceImpl<>();
     }
 
     @Override
@@ -46,28 +57,10 @@ public class SimpleDataHandler<Data> implements DataHandler<Data> {
         this.groupByFilterService.apply(result, groupBy);
 
         // 进行排序
-        if (orderBy != null) {
-            // 如果group by 为空那么对于result进行排序
-            if (groupBy == null) {
-                // todo result 排序
-            } else {
-                // 否则对group by data 中的 key进行排序
-                // todo group by keys 排序
-            }
-        }
+        this.orderByFilterService.apply(result, orderBy, groupBy);
 
         // 进行分页
-        if (limit != null) {
-            // 如果group by 为空那么对于result进行分页
-            List<Data> limitResult = new LinkedList<>();
-
-            Iterator<Data> limitIterator = result.listIterator(limit.getRows());
-            while (limitIterator.hasNext() && limitResult.size() < limit.getOffset()) {
-                Data temp = limitIterator.next();
-                limitResult.add(temp);
-            }
-            result = limitResult;
-        }
+        result = this.limitFilterService.apply(result, limit);
 
         long endTime = System.currentTimeMillis();
         log.info("match successful time :{} ms", endTime - startTime);
