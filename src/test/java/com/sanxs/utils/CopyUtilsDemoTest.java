@@ -1,8 +1,8 @@
 package com.sanxs.utils;
 
 import com.sanxs.data.TestData;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * @Author: Yang shan
@@ -21,7 +21,7 @@ class CopyUtilsDemoTest {
 
         CopyUtils.copy(a, b);
 
-        Assertions.assertNotSame(a, b);
-        Assertions.assertEquals(a.toString(), b.toString());
+        Assert.assertNotSame(a, b);
+        Assert.assertEquals(a.toString(), b.toString());
     }
 }

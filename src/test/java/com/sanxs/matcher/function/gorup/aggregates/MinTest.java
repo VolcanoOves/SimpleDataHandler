@@ -2,8 +2,8 @@ package com.sanxs.matcher.function.gorup.aggregates;
 
 import com.sanxs.data.GroupTestData;
 import com.sanxs.data.TestData;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -30,6 +30,6 @@ class MinTest {
         count.aggregate(result);
 
         // 暂且那maxId 这个字段接收 sum
-        Assertions.assertEquals(result.getMaxId(), 1 + 2 + 3 + 4);
+        Assert.assertEquals((long) result.getMaxId(), 1 + 2 + 3 + 4);
     }
 }

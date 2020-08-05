@@ -2,8 +2,8 @@ package com.sanxs.matcher.service;
 
 import com.sanxs.data.TestData;
 import com.sanxs.matcher.Where;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -32,8 +32,8 @@ class DefaultWhereFilterServiceImplDemoTest {
         List<TestData> result = whereFilterService.apply(data, where);
 
         result.forEach(item -> {
-            Assertions.assertEquals(0, (int) item.getGender());
-            Assertions.assertEquals(26, (int) item.getAge());
+            Assert.assertEquals(0, (int) item.getGender());
+            Assert.assertEquals(26, (int) item.getAge());
         });
     }
 

@@ -9,7 +9,7 @@ import com.sanxs.matcher.OrderBy;
 import com.sanxs.matcher.Where;
 import com.sanxs.matcher.function.gorup.Aggregates;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;

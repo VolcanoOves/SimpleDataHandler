@@ -4,8 +4,8 @@ import com.sanxs.data.GroupTestData;
 import com.sanxs.data.TestData;
 import com.sanxs.matcher.GroupBy;
 import com.sanxs.matcher.function.gorup.Aggregates;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -47,7 +47,7 @@ class DefaultGroupByFilterServiceImplTest {
         answer.add(new GroupTestData(null, null, null, 1, 2L, null, 2L));
         answer.add(new GroupTestData(null, null, null, 0, 4L, null, 2L));
 
-        Assertions.assertEquals(Arrays.toString(result.toArray()), Arrays.toString(answer.toArray()));
+        Assert.assertEquals(Arrays.toString(result.toArray()), Arrays.toString(answer.toArray()));
     }
 
 }

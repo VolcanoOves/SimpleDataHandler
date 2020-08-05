@@ -2,8 +2,8 @@ package com.sanxs.matcher.service;
 
 import com.sanxs.data.TestData;
 import com.sanxs.matcher.OrderBy;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -30,7 +30,7 @@ class DefaultOrderByFilterServiceImplDemoTest {
 
         for (int i = 0; i < data.size(); i++) {
             for (int j = 0; j < i; j++) {
-                Assertions.assertTrue(data.get(i).getId() <= data.get(j).getId());
+                Assert.assertTrue(data.get(i).getId() <= data.get(j).getId());
             }
         }
     }
@@ -53,9 +53,9 @@ class DefaultOrderByFilterServiceImplDemoTest {
 
         for (int i = 0; i < data.size(); i++) {
             for (int j = 0; j < i; j++) {
-                Assertions.assertTrue(data.get(i).getAge() >= data.get(j).getAge());
+                Assert.assertTrue(data.get(i).getAge() >= data.get(j).getAge());
                 if (data.get(i).getAge().equals(data.get(j).getAge())) {
-                    Assertions.assertTrue(data.get(i).getId() <= data.get(j).getId());
+                    Assert.assertTrue(data.get(i).getId() <= data.get(j).getId());
                 }
             }
         }

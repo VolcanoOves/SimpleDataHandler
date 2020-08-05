@@ -8,8 +8,8 @@ import com.sanxs.matcher.Limit;
 import com.sanxs.matcher.OrderBy;
 import com.sanxs.matcher.Where;
 import com.sanxs.matcher.function.gorup.Aggregates;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -53,7 +53,7 @@ class SimpleDataHandlerDemoTest {
         answer.add(new TestData(3L, "赵五", 27, 0));
         answer.add(new TestData(4L, "王六", 28, 0));
 
-        Assertions.assertEquals(Arrays.toString(answer.toArray()), Arrays.toString(result.toArray()));
+        Assert.assertEquals(Arrays.toString(answer.toArray()), Arrays.toString(result.toArray()));
     }
 
     /**
@@ -73,7 +73,7 @@ class SimpleDataHandlerDemoTest {
         List<TestData> answer = new LinkedList<>();
         answer.add(new TestData(2L, "李四", 27, 1));
 
-        Assertions.assertEquals(Arrays.toString(answer.toArray()), Arrays.toString(result.toArray()));
+        Assert.assertEquals(Arrays.toString(answer.toArray()), Arrays.toString(result.toArray()));
 
     }
 
@@ -98,7 +98,7 @@ class SimpleDataHandlerDemoTest {
         answer.add(new GroupTestData(null, null, null, 1, 2L, 27d, 2L));
         answer.add(new GroupTestData(null, null, null, 0, 4L, 27d, 2L));
 
-        Assertions.assertEquals(Arrays.toString(answer.toArray()), Arrays.toString(result.toArray()));
+        Assert.assertEquals(Arrays.toString(answer.toArray()), Arrays.toString(result.toArray()));
 
     }
 
@@ -119,7 +119,7 @@ class SimpleDataHandlerDemoTest {
         answer.add(new TestData(2L, "李四", 28, 1));
         answer.add(new TestData(1L, "张三", 26, 1));
 
-        Assertions.assertEquals(Arrays.toString(answer.toArray()), Arrays.toString(result.toArray()));
+        Assert.assertEquals(Arrays.toString(answer.toArray()), Arrays.toString(result.toArray()));
     }
 
     /**
@@ -134,7 +134,7 @@ class SimpleDataHandlerDemoTest {
         List<TestData> answer = new LinkedList<>();
         answer.add(new TestData(4L, "王六", 26, 0));
 
-        Assertions.assertEquals(Arrays.toString(answer.toArray()), Arrays.toString(result.toArray()));
+        Assert.assertEquals(Arrays.toString(answer.toArray()), Arrays.toString(result.toArray()));
     }
 
 }

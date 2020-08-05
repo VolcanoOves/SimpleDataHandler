@@ -2,8 +2,8 @@ package com.sanxs.matcher.function.gorup.aggregates;
 
 import com.sanxs.data.GroupTestData;
 import com.sanxs.data.TestData;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -29,6 +29,6 @@ class MaxTest {
         GroupTestData result = new GroupTestData();
         count.aggregate(result);
 
-        Assertions.assertEquals(result.getMaxId(), 4);
+        Assert.assertEquals(4, (long) result.getMaxId());
     }
 }

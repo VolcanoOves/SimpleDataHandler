@@ -2,8 +2,8 @@ package com.sanxs.matcher.service;
 
 import com.sanxs.data.TestData;
 import com.sanxs.matcher.Limit;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -36,7 +36,7 @@ class LimitFilterServiceImplDemoTest {
         List<TestData> answer = new LinkedList<>();
         answer.add(new TestData(1L, "张三", 26, 1));
 
-        Assertions.assertEquals(Arrays.toString(result.toArray()), Arrays.toString(answer.toArray()));
+        Assert.assertEquals(Arrays.toString(result.toArray()), Arrays.toString(answer.toArray()));
     }
 
     /**
@@ -56,6 +56,6 @@ class LimitFilterServiceImplDemoTest {
         LimitFilterServiceImpl<TestData> limitFilterService = new LimitFilterServiceImpl<>();
         List<TestData> result = limitFilterService.apply(data, limit);
 
-        Assertions.assertTrue(result.isEmpty());
+        Assert.assertTrue(result.isEmpty());
     }
 }
