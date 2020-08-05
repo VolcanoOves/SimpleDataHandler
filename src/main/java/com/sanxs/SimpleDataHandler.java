@@ -64,6 +64,7 @@ public class SimpleDataHandler<Data> implements DataHandler<Data> {
 
         long endTime = System.currentTimeMillis();
         log.info("match successful time :{} ms", endTime - startTime);
+
         return result;
     }
 }

@@ -10,7 +10,8 @@ import java.util.List;
 /**
  * @Author: Yang shan
  * @Date: 2020/8/3
- * @Description:
+ * @Description: 抽象的数据处理接口
+ * 本项目核心实现类 SimpleDataHandler 继续该接口实现
  */
 public interface DataHandler<T> {
 

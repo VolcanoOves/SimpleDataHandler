@@ -20,7 +20,7 @@ public class FunctionUtils {
     public static final String IS = "is";
 
     /**
-     * lambda 方式取得该对象的方法名以及字段值组成一个key
+     * 获取function对应的值
      *
      * @param groupMatchFunction function
      * @param data               数据对象
@@ -45,7 +45,7 @@ public class FunctionUtils {
     }
 
     /**
-     * lambda 方式取得该对象的方法名以及字段值组成一个key
+     * 设置function对应对象的值
      *
      * @param groupMatchFunction function
      * @param data               数据对象
@@ -69,8 +69,8 @@ public class FunctionUtils {
     /**
      * 获取字段名称
      *
-     * @param groupMatchFunction
-     * @return
+     * @param groupMatchFunction function
+     * @return 字段名
      */
     public static String getClassFieldName(Serializable groupMatchFunction) {
         SerializedLambda serializedLambda = getSerializedLambda(groupMatchFunction);
@@ -82,6 +82,7 @@ public class FunctionUtils {
 
     /**
      * lambda 方式取得该对象的方法名以及字段值组成一个key
+     * 用于构造group key 专用方法
      *
      * @param groupMatchFunction function
      * @param source             数据对象

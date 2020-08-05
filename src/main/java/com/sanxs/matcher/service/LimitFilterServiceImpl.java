@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @Author: Yangshan
  * @Date: 2020/8/4
- * @Description: 分页相关实现
+ * @Description: 分页处理罗辑
  **/
 public class LimitFilterServiceImpl<Data> implements LimitFilterService<Data> {
     @Override

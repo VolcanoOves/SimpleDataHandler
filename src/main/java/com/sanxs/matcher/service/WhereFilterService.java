@@ -22,9 +22,9 @@ public interface WhereFilterService<Data> {
     /**
      * 验证数据是否有效
      *
-     * @param data
-     * @param where
-     * @return
+     * @param data  数据
+     * @param where where 对象
+     * @return 筛选结果
      */
     boolean validation(Data data, Where<Data> where);
 }

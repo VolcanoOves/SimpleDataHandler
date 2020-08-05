@@ -3,7 +3,7 @@ package com.sanxs.matcher.function;
 /**
  * @Author: Yang shan
  * @Date: 2020/8/3
- * @Description:
+ * @Description: Where 匹配抽象接口
  */
 @FunctionalInterface
 public interface WhereMatchFunction<T> {

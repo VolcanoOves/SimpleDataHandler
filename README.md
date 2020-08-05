@@ -3,7 +3,7 @@ Ant Financial Exam for &lt;Veys@qq.com>
 
 ## 项目介绍
 
-通过构造 Where&lt;T&gt;、Group&lt;T,GroupT extends T&gt;、OrderBy&lt;T&gt;、Limit对List&lt;T&gt;进行复杂条件筛选以及聚合数据统计。
+通过构造 Where&lt;T&gt;、Group&lt;T,GroupTestData extends T&gt;、OrderBy&lt;T&gt;、Limit对List&lt;T&gt;进行复杂条件筛选以及聚合数据统计。
 
 ## 使用教程
 

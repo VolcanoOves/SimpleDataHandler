@@ -5,7 +5,7 @@ import com.sanxs.matcher.function.gorup.aggregates.*;
 /**
  * @Author: Yangshan
  * @Date: 2020/8/4
- * @Description: 常用聚合函数，可自定义
+ * @Description: 常用聚合函数集合
  **/
 public class Aggregates {
 

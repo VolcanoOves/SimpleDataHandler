@@ -10,11 +10,15 @@ import java.util.List;
 /**
  * @Author: Yang shan
  * @Date: 2020/8/3
- * @Description:
+ * @Description: 排序对象
  */
 @Getter
 public class OrderBy<Data> {
-    List<OrderModel<Data, ?>> orderMatchFunctions;
+    /**
+     * 需要排序的字段
+     * eg: TestData::getId 代表 id 排序
+     */
+    private final List<OrderModel<Data, ?>> orderMatchFunctions;
 
     public OrderBy() {
         this.orderMatchFunctions = new LinkedList<>();

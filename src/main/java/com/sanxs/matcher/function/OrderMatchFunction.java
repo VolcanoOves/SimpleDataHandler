@@ -6,7 +6,7 @@ import java.util.function.Function;
 /**
  * @Author: Yang shan
  * @Date: 2020/8/3
- * @Description:
+ * @Description: lambda表达式获取 function :: 取值
  */
 @FunctionalInterface
 public interface OrderMatchFunction<T, R> extends Function<T, R>, Serializable {

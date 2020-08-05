@@ -7,12 +7,19 @@ import lombok.Setter;
 /**
  * @Author: Yang shan
  * @Date: 2020/8/3
- * @Description:
+ * @Description: 分页对象
  */
 @Getter
 @Setter
 @AllArgsConstructor
 public class Limit {
+    /**
+     * 起始位置
+     */
     private int rows;
+
+    /**
+     * 数据大小
+     */
     private int offset;
 }

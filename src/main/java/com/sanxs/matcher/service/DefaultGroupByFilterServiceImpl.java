@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * @Author: Yangshan
  * @Date: 2020/8/4
- * @Description:
+ * @Description: 分组处理罗辑
  **/
 public class DefaultGroupByFilterServiceImpl<Data> implements GroupByFilterService<Data> {
 

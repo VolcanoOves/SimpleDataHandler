@@ -3,7 +3,7 @@ package com.sanxs.enums;
 /**
  * @Author: Yang shan
  * @Date: 2020/8/3
- * @Description:
+ * @Description: Where 拼接符
  */
 public enum WhereMatchDelimiterEnum {
     /**

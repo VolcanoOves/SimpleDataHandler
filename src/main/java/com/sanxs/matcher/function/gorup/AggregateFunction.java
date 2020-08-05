@@ -5,15 +5,15 @@ import java.io.Serializable;
 /**
  * @Author: Yang shan
  * @Date: 2020/8/3
- * @Description: 对聚合结果进行赋值 lambda 表达式将赋值函数取出，合适的时候赋值
+ * @Description: 定义setXxx(Object x)的lambda表达式接口函数
  */
 @FunctionalInterface
 public interface AggregateFunction<GroupData, AggregateResult> extends Serializable {
     /**
-     * 对聚合结果进行赋值 lambda 表达式将赋值函数取出，合适的时候赋值
+     * 定义setXxx(Object x)的lambda表达式接口函数
      *
-     * @param groupData 赋值对象的lambda表达式
-     * @param result    对应的数值
+     * @param groupData 需要赋值的对象类型
+     * @param result    需要赋值的对象字段
      */
     void apply(GroupData groupData, AggregateResult result);
 }

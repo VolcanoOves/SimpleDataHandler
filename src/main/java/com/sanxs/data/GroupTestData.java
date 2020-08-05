@@ -7,7 +7,7 @@ import lombok.Setter;
 /**
  * @Author: Yangshan
  * @Date: 2020/8/4
- * @Description:
+ * @Description: 测试专用聚合对象返回值
  **/
 @Getter
 @Setter
@@ -23,8 +23,19 @@ public class GroupTestData extends TestData {
         this.countId = countId;
     }
 
+    /**
+     * 最大ID
+     */
     private Long maxId;
+
+    /**
+     * 平均年龄
+     */
     private Double avgAge;
+
+    /**
+     * 统计个数
+     */
     private Long countId;
 
     @Override

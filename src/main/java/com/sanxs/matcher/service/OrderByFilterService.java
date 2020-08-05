@@ -12,11 +12,11 @@ import java.util.List;
  **/
 public interface OrderByFilterService<Data> {
     /**
-     * 执行过滤
+     * 排序罗辑
      *
-     * @param data
-     * @param orderBy
-     * @param groupBy
+     * @param data    数据
+     * @param orderBy 排序对象
+     * @param groupBy 分组端详
      */
-    void apply(List<Data> data, OrderBy<Data> orderBy, GroupBy<Data,?> groupBy);
+    void apply(List<Data> data, OrderBy<Data> orderBy, GroupBy<Data, ?> groupBy);
 }

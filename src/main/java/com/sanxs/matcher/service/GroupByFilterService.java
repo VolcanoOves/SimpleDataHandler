@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @Author: Yangshan
  * @Date: 2020/8/4
- * @Description:
+ * @Description: 分组处理罗辑
  **/
 public interface GroupByFilterService<Data> {
 
@@ -16,7 +16,6 @@ public interface GroupByFilterService<Data> {
      *
      * @param data    原始数据
      * @param groupBy group罗辑
-     * @return
      */
     <GroupData extends Data> List<Data> apply(List<Data> data, GroupBy<Data, GroupData> groupBy);
 }

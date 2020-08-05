@@ -14,9 +14,9 @@ public interface LimitFilterService<Data> {
     /**
      * 执行过滤
      *
-     * @param data
-     * @param limit
-     * @return
+     * @param data  数据
+     * @param limit 分页对象
+     * @return 排序之后的结果
      */
     List<Data> apply(List<Data> data, Limit limit);
 }

@@ -13,7 +13,7 @@ import java.util.concurrent.*;
 /**
  * @Author: Yangshan
  * @Date: 2020/8/4
- * @Description:
+ * @Description: 条件筛选处理罗辑
  **/
 public class DefaultWhereFilterServiceImpl<Data> implements WhereFilterService<Data> {
 
