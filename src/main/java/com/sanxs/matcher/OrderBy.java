@@ -1,7 +1,6 @@
 package com.sanxs.matcher;
 
 import com.sanxs.matcher.function.OrderMatchFunction;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,8 +13,8 @@ import java.util.List;
  * @Description:
  */
 @Getter
-public class OrderBy<T> {
-    List<OrderModel<T>> orderMatchFunctions;
+public class OrderBy<Data> {
+    List<OrderModel<Data, ?>> orderMatchFunctions;
 
     public OrderBy() {
         this.orderMatchFunctions = new LinkedList<>();
@@ -26,8 +25,8 @@ public class OrderBy<T> {
      *
      * @param orderMatchFunction 排序匹配
      */
-    public OrderBy<T> appendAsc(OrderMatchFunction<T, ?> orderMatchFunction) {
-        OrderModel<T> orderModel = new OrderModel<>();
+    public <GroupData extends Data> OrderBy<Data> appendAsc(OrderMatchFunction<GroupData, ?> orderMatchFunction) {
+        OrderModel<Data, GroupData> orderModel = new OrderModel<>();
         orderModel.setAsc(true);
         orderModel.setOrderMatchFunction(orderMatchFunction);
 
@@ -40,8 +39,8 @@ public class OrderBy<T> {
      *
      * @param orderMatchFunction 排序匹配
      */
-    public OrderBy<T> appendDesc(OrderMatchFunction<T, ?> orderMatchFunction) {
-        OrderModel<T> orderModel = new OrderModel<>();
+    public <GroupData extends Data> OrderBy<Data> appendDesc(OrderMatchFunction<GroupData, ?> orderMatchFunction) {
+        OrderModel<Data, GroupData> orderModel = new OrderModel<>();
         orderModel.setAsc(false);
         orderModel.setOrderMatchFunction(orderMatchFunction);
 
@@ -51,8 +50,8 @@ public class OrderBy<T> {
 
     @Getter
     @Setter
-    public static class OrderModel<T> {
-        private OrderMatchFunction<T, ?> orderMatchFunction;
+    public static class OrderModel<Data, GroupData extends Data> {
+        private OrderMatchFunction<GroupData, ?> orderMatchFunction;
         private boolean asc = true;
     }
 }

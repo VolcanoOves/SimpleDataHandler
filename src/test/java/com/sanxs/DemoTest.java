@@ -168,12 +168,16 @@ public class DemoTest {
      */
     @Test
     public void groupAndOrder() {
-        OrderBy<TestData> orderBy = new OrderBy<>();
-        orderBy.appendAsc(TestData::getId);
+        GroupBy<TestData, GroupTestData> groupBy = new GroupBy<>(GroupTestData.class);
+        groupBy.appendKey(TestData::getAge);
+        groupBy.appendAggregate(Aggregates.count(TestData::getId, GroupTestData::setCountId));
 
-        // TODO 带完善
+        OrderBy<TestData> orderBy = new OrderBy<>();
+        orderBy.appendAsc(GroupTestData::getCountId);
+
+
         this.printlnAllData(DATA_LIST);
-        List<TestData> result = DATA_HANDLER.query(DATA_LIST, null, orderBy, null, null);
+        List<TestData> result = DATA_HANDLER.query(DATA_LIST, null, orderBy, groupBy, null);
         this.printlnMatchData(result);
     }
 

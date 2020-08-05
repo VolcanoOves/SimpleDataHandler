@@ -1,5 +1,6 @@
 package com.sanxs.matcher.service;
 
+import cn.hutool.core.thread.ThreadFactoryBuilder;
 import com.sanxs.enums.WhereMatchDelimiterEnum;
 import com.sanxs.matcher.Where;
 
@@ -7,10 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 /**
  * @Author: Yangshan
@@ -20,7 +18,14 @@ import java.util.concurrent.Future;
 public class DefaultWhereFilterServiceImpl<Data> implements WhereFilterService<Data> {
 
     private final int processors = Runtime.getRuntime().availableProcessors();
-    private final ExecutorService executorService = Executors.newFixedThreadPool(processors);
+    private final ThreadPoolExecutor executorService = new ThreadPoolExecutor(
+            1,
+            processors,
+            0L,
+            TimeUnit.MICROSECONDS,
+            new LinkedBlockingQueue<>(9999),
+            new ThreadFactoryBuilder().setNamePrefix("where-pool-%d").build(),
+            new ThreadPoolExecutor.AbortPolicy());
 
     @Override
     public synchronized List<Data> apply(List<Data> data, Where<Data> where) {
