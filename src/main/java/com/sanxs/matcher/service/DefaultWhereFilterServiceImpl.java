@@ -48,7 +48,7 @@ public class DefaultWhereFilterServiceImpl<Data> implements WhereFilterService<D
                     for (int j = 0; j < end - start; j++) {
                         Data item = iterator.next();
                         // 满足条件则添加到匹配成功的列表
-                        if (this.match(where, item)) {
+                        if (this.validation(item, where)) {
                             matchSuccesses.add(item);
                         }
                     }
@@ -75,7 +75,8 @@ public class DefaultWhereFilterServiceImpl<Data> implements WhereFilterService<D
         }
     }
 
-    private boolean match(Where<Data> where, Data item) {
+    @Override
+    public boolean validation(Data data, Where<Data> where) {
         // 将where中的所有条件节点拿出来
         Iterator<Where<Data>.WhereMatchFunctionWrapper> iterator = where.getWhereMatchFunctions().iterator();
         // 默认是数据满足条件
@@ -86,10 +87,10 @@ public class DefaultWhereFilterServiceImpl<Data> implements WhereFilterService<D
             Where<Data>.WhereMatchFunctionWrapper wrapper = iterator.next();
             // 如果当前条件是AND拼接，那么与当前计算的值进行‘&&’运算
             if (wrapper.getDelimiter().equals(WhereMatchDelimiterEnum.AND)) {
-                matchSuccess = matchSuccess && wrapper.getFunction().match(item);
+                matchSuccess = matchSuccess && wrapper.getFunction().match(data);
             } else {
                 // 如果当前条件是OR拼接，那么与当前计算的值进行‘||’运算
-                matchSuccess = matchSuccess || wrapper.getFunction().match(item);
+                matchSuccess = matchSuccess || wrapper.getFunction().match(data);
             }
         }
         // 返回是否匹配

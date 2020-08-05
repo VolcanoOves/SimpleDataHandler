@@ -20,7 +20,7 @@ import java.util.List;
  * @Date: 2020/8/4
  * @Description: 测试用例
  */
-class SimpleDataHandlerTest {
+class SimpleDataHandlerDemoTest {
 
     public static final int DATA_COUNT = 50;
     private final static List<TestData> DATA_LIST;

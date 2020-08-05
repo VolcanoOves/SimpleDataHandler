@@ -13,7 +13,7 @@ import java.util.List;
  * @Date: 2020/8/4
  * @Description: 条件筛选测试
  */
-class DefaultWhereFilterServiceImplTest {
+class DefaultWhereFilterServiceImplDemoTest {
 
     @Test
     public void where() {

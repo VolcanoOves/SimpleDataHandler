@@ -2,6 +2,7 @@ package com.sanxs.utils;
 
 import com.sanxs.matcher.function.gorup.AggregateFunction;
 
+import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -113,11 +114,9 @@ public class FunctionUtils {
      * 获取字段名称
      *
      * @param groupMatchFunction
-     * @param <T>
-     * @param <V>
      * @return
      */
-    public static <T, V> String getMethodName(Function<T, V> groupMatchFunction) {
+    public static String getMethodName(Serializable groupMatchFunction) {
         // 从function取出序列化方法
         Method writeReplaceMethod;
 

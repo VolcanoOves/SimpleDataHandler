@@ -28,11 +28,13 @@ public class GroupBy<Data, GroupData extends Data> {
     private final List<GroupMatchFunction<Data, ?>> groupMatchFunctions;
     private final List<AbstractGroupByAggregateHandler<Data, GroupData, ?, ?>> aggregateHandlers;
     private final Class<GroupData> groupDataClass;
+    private final Where<GroupData> having;
 
     public GroupBy(Class<GroupData> clazz) {
         this.groupMatchFunctions = new LinkedList<>();
         this.aggregateHandlers = new LinkedList<>();
         this.groupDataClass = clazz;
+        this.having = new Where<>();
     }
 
     public GroupBy<Data, GroupData> appendKey(GroupMatchFunction<Data, ?> groupByKey) {

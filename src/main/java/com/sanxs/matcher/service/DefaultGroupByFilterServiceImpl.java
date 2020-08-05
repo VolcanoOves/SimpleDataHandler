@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * @Author: Yangshan
@@ -25,6 +26,9 @@ public class DefaultGroupByFilterServiceImpl<Data> implements GroupByFilterServi
 
         // 进行group匹配
         if (groupBy != null) {
+
+            WhereFilterService<GroupData> whereFilterService = new DefaultWhereFilterServiceImpl<>();
+
             // 存放分组的数据
             Map<GroupBy.GroupKey<Data>, GroupData> groupMap = new ConcurrentHashMap<>(16);
             // 存放每个分组的统计快照，统计罗辑是group.getAggregateHandlers()的副本
@@ -44,7 +48,7 @@ public class DefaultGroupByFilterServiceImpl<Data> implements GroupByFilterServi
                         groupMap.putIfAbsent(groupKey, objectKey);
 
                         groupBy.getAggregateHandlers().forEach(handler -> {
-                            // 将处理罗辑进行副本创建
+                            // 将处理罗辑进行副本创建 因为处理结果的缓存数据存放在罗辑对象中（没有设计好）
                             // 时间关系没有能够设计出分组隔离的模型...
                             AbstractGroupByAggregateHandler<Data, GroupData, Object, Object> clone = null;
                             try {
@@ -84,6 +88,12 @@ public class DefaultGroupByFilterServiceImpl<Data> implements GroupByFilterServi
 
             data.clear();
             data.addAll(groupMap.values());
+
+            // 通过having将条件筛选出来
+            // 由于时间关系没有做好字段类型的检测，没能判断哪些字段能够在having中使用
+            // 其原因是在设计where的时候，使用灵活的自己设置判断条件，保持了灵活失去了类型检测（时间来不及改了 - - ）
+            // 如果传入非法字段进行having匹配直接会返回异常的匹配集合
+            data = data.stream().filter(item -> whereFilterService.validation((GroupData) item, groupBy.getHaving())).collect(Collectors.toList());
         }
         return data;
     }

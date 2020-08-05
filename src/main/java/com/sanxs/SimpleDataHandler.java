@@ -54,7 +54,7 @@ public class SimpleDataHandler<Data> implements DataHandler<Data> {
         List<Data> result = this.whereFilterService.apply(data, where);
 
         // 进行group匹配
-        this.groupByFilterService.apply(result, groupBy);
+        result = this.groupByFilterService.apply(result, groupBy);
 
         // 进行排序
         this.orderByFilterService.apply(result, orderBy, groupBy);

@@ -18,4 +18,13 @@ public interface WhereFilterService<Data> {
      * @return
      */
     List<Data> apply(List<Data> data, Where<Data> where);
+
+    /**
+     * 验证数据是否有效
+     *
+     * @param data
+     * @param where
+     * @return
+     */
+    boolean validation(Data data, Where<Data> where);
 }

@@ -2,11 +2,12 @@ package com.sanxs.matcher.service;
 
 import com.sanxs.matcher.GroupBy;
 import com.sanxs.matcher.OrderBy;
+import com.sanxs.matcher.function.GroupMatchFunction;
 import com.sanxs.matcher.function.OrderMatchFunction;
+import com.sanxs.matcher.function.gorup.AbstractGroupByAggregateHandler;
 import com.sanxs.utils.FunctionUtils;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @Author: Yangshan
@@ -17,6 +18,19 @@ public class DefaultOrderByFilterServiceImpl<Data> implements OrderByFilterServi
     @Override
     public void apply(List<Data> data, OrderBy<Data> orderBy, GroupBy<Data, ?> groupBy) {
         if (orderBy != null) {
+
+            if (groupBy != null) {
+                List<String> groupByFieldSet = new ArrayList<>();
+                List<String> aggregateFieldSet = new ArrayList<>();
+
+                for (GroupMatchFunction<Data, ?> groupMatchFunction : groupBy.getGroupMatchFunctions()) {
+                    groupByFieldSet.add(FunctionUtils.getMethodName(groupMatchFunction));
+                }
+
+                for (AbstractGroupByAggregateHandler<Data, ?, ?, ?> handler : groupBy.getAggregateHandlers()) {
+                    aggregateFieldSet.add(FunctionUtils.getMethodName(handler.getOut()));
+                }
+            }
 
             // 如果是没有进行分组
             data.sort((a, b) -> {

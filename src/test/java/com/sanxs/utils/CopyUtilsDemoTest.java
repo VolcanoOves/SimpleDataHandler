@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
  * @Date: 2020/8/4
  * @Description:
  */
-class CopyUtilsTest {
+class CopyUtilsDemoTest {
 
     /**
      * 字段copy测试
