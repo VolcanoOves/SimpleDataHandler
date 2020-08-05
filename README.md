@@ -200,3 +200,6 @@ public void handler(List<TestData> data){
 
 同时支持对GroupBy的结果进行筛选，使用方式一致。
 
+### 三、注意事项
+
+该项目最小支持JDK 1.8
