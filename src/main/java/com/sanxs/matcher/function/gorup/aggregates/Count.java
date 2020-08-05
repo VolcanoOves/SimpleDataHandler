@@ -16,7 +16,6 @@ public class Count<Data, GroupData extends Data> extends AbstractGroupByAggregat
 
     private Long count = 0L;
 
-
     public Count(GetFieldFunction<Data, Object> in, AggregateFunction<GroupData, Long> out) {
         this.in = in;
         this.out = out;

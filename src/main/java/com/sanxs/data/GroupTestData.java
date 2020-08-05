@@ -38,6 +38,11 @@ public class GroupTestData extends TestData {
      */
     private Long countId;
 
+    /**
+     * id 累加
+     */
+    private Double sumId;
+
     @Override
     public String toString() {
         return JSONUtil.toJsonStr(this);

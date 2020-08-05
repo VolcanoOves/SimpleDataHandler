@@ -16,7 +16,7 @@ import java.util.List;
 public class MinTest {
     @Test
     public void test() {
-        Sum<TestData, GroupTestData> count = new Sum<>(TestData::getId, GroupTestData::setMaxId);
+        Sum<TestData, GroupTestData> count = new Sum<>(TestData::getId, GroupTestData::setSumId);
 
         List<TestData> data = new LinkedList<>();
         data.add(new TestData(1L, "张三", 26, 1));

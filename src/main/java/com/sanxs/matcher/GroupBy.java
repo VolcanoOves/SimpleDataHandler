@@ -4,6 +4,7 @@ import com.sanxs.matcher.function.GroupMatchFunction;
 import com.sanxs.matcher.function.gorup.AbstractGroupByAggregateHandler;
 import com.sanxs.utils.FunctionUtils;
 import lombok.Getter;
+import lombok.SneakyThrows;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -83,13 +84,10 @@ public class GroupBy<Data, GroupData extends Data> {
         private final String key;
         private final Data objectKey;
 
+        @SneakyThrows
         public GroupKey(Collection<GroupMatchFunction<Data, ?>> groupByKeysOperation, Data data) {
             StringBuilder keysBuilder = new StringBuilder();
-            try {
-                this.objectKey = (Data) data.getClass().newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
-                throw new RuntimeException("Requires no-parameter construction method " + data.getClass().getName());
-            }
+            this.objectKey = (Data) data.getClass().newInstance();
             for (Function<Data, ?> cache : groupByKeysOperation) {
                 keysBuilder.append(FunctionUtils.getFieldNameAndValue(cache, data, this.objectKey));
             }

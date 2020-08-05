@@ -9,7 +9,7 @@ import com.sanxs.matcher.function.gorup.aggregates.*;
  **/
 public class Aggregates {
 
-    public static <Data, GroupData extends Data> AbstractGroupByAggregateHandler<Data, GroupData, ?, ?> avg(GetFieldFunction<Data, Integer> in, AggregateFunction<GroupData, Double> out) {
+    public static <Data, GroupData extends Data> AbstractGroupByAggregateHandler<Data, GroupData, ?, ?> avg(GetFieldFunction<Data, Number> in, AggregateFunction<GroupData, Double> out) {
         return new Avg<>(in, out);
     }
 
@@ -25,7 +25,7 @@ public class Aggregates {
         return new Min<>(in, out);
     }
 
-    public static <Data, GroupData extends Data> AbstractGroupByAggregateHandler<Data, GroupData, ?, ?> sum(GetFieldFunction<Data, Long> in, AggregateFunction<GroupData, Long> out) {
+    public static <Data, GroupData extends Data> AbstractGroupByAggregateHandler<Data, GroupData, ?, ?> sum(GetFieldFunction<Data, Number> in, AggregateFunction<GroupData, Double> out) {
         return new Sum<>(in, out);
     }
 

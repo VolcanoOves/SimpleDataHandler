@@ -1,11 +1,11 @@
 package com.sanxs.utils;
 
 import com.sanxs.matcher.function.gorup.AggregateFunction;
+import lombok.SneakyThrows;
 
 import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -25,23 +25,16 @@ public class FunctionUtils {
      * @param groupMatchFunction function
      * @param data               数据对象
      */
+    @SneakyThrows
     public static <T> Object getFieldValue(Serializable groupMatchFunction, T data) {
 
         SerializedLambda serializedLambda = getSerializedLambda(groupMatchFunction);
         String fieldName = getFieldName(serializedLambda);
 
-        Field field;
-        Object value;
+        Field field = Class.forName(serializedLambda.getImplClass().replace("/", ".")).getDeclaredField(fieldName);
+        field.setAccessible(true);
 
-        try {
-            field = Class.forName(serializedLambda.getImplClass().replace("/", ".")).getDeclaredField(fieldName);
-            field.setAccessible(true);
-            value = field.get(data);
-        } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-
-        return value;
+        return field.get(data);
     }
 
     /**
@@ -50,19 +43,16 @@ public class FunctionUtils {
      * @param groupMatchFunction function
      * @param data               数据对象
      */
+    @SneakyThrows
     public static <T, V> void setFieldValue(AggregateFunction<T, V> groupMatchFunction, T data, V value) {
         SerializedLambda serializedLambda = getSerializedLambda(groupMatchFunction);
         String fieldName = getFieldName(serializedLambda);
 
         Field field;
 
-        try {
-            field = Class.forName(serializedLambda.getImplClass().replace("/", ".")).getDeclaredField(fieldName);
-            field.setAccessible(true);
-            field.set(data, value);
-        } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        field = Class.forName(serializedLambda.getImplClass().replace("/", ".")).getDeclaredField(fieldName);
+        field.setAccessible(true);
+        field.set(data, value);
 
     }
 
@@ -72,6 +62,7 @@ public class FunctionUtils {
      * @param groupMatchFunction function
      * @return 字段名
      */
+
     public static String getClassFieldName(Serializable groupMatchFunction) {
         SerializedLambda serializedLambda = getSerializedLambda(groupMatchFunction);
         String fieldName = getFieldName(serializedLambda);
@@ -88,41 +79,26 @@ public class FunctionUtils {
      * @param source             数据对象
      * @return group key [methodName:<value>]
      */
+    @SneakyThrows
     public static <T> String getFieldNameAndValue(Object groupMatchFunction, T source, T target) {
         SerializedLambda serializedLambda = getSerializedLambda(groupMatchFunction);
         String fieldName = getFieldName(serializedLambda);
 
-        Field field;
-        Object value;
-
-        try {
-            field = Class.forName(serializedLambda.getImplClass().replace("/", ".")).getDeclaredField(fieldName);
-            field.setAccessible(true);
-            value = field.get(source);
-            field.set(target, value);
-        } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        Field field = Class.forName(serializedLambda.getImplClass().replace("/", ".")).getDeclaredField(fieldName);
+        field.setAccessible(true);
+        Object value = field.get(source);
+        field.set(target, value);
 
         return String.format("[%s:%s]", field.getName(), value != null ? "<" + value.toString() + ">" : null);
     }
 
+    @SneakyThrows
     private static SerializedLambda getSerializedLambda(Object function) {
         // 从function取出序列化方法
-        Method writeReplaceMethod;
-        try {
-            writeReplaceMethod = function.getClass().getDeclaredMethod("writeReplace");
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
+        Method writeReplaceMethod = function.getClass().getDeclaredMethod("writeReplace");
 
         writeReplaceMethod.setAccessible(true);
-
-        try {
-            return (SerializedLambda) writeReplaceMethod.invoke(function);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e);
-        }
+        return (SerializedLambda) writeReplaceMethod.invoke(function);
     }
 
     /**

@@ -12,12 +12,12 @@ import lombok.NoArgsConstructor;
  * @Description: 聚合平均
  **/
 @NoArgsConstructor
-public class Avg<Data, GroupData extends Data> extends AbstractGroupByAggregateHandler<Data, GroupData, Integer, Double> {
+public class Avg<Data, GroupData extends Data> extends AbstractGroupByAggregateHandler<Data, GroupData, Number, Double> {
 
     private Long sum = 0L;
     private Integer count = 0;
 
-    public Avg(GetFieldFunction<Data, Integer> in, AggregateFunction<GroupData, Double> out) {
+    public Avg(GetFieldFunction<Data, Number> in, AggregateFunction<GroupData, Double> out) {
         this.in = in;
         this.out = out;
     }

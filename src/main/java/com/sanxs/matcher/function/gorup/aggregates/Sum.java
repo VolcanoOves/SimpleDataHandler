@@ -12,12 +12,11 @@ import lombok.NoArgsConstructor;
  * @Description: 聚合取总和
  **/
 @NoArgsConstructor
-public class Sum<Data, GroupData extends Data> extends AbstractGroupByAggregateHandler<Data, GroupData, Long, Long> {
+public class Sum<Data, GroupData extends Data> extends AbstractGroupByAggregateHandler<Data, GroupData, Number, Double> {
 
-    private Long sum = 0L;
+    private Double sum = 0d;
 
-
-    public Sum(GetFieldFunction<Data, Long> in, AggregateFunction<GroupData, Long> out) {
+    public Sum(GetFieldFunction<Data, Number> in, AggregateFunction<GroupData, Double> out) {
         this.in = in;
         this.out = out;
     }
@@ -26,7 +25,7 @@ public class Sum<Data, GroupData extends Data> extends AbstractGroupByAggregateH
     public void handle(Data data) {
         Object value = FunctionUtils.getFieldValue(in, data);
         if (value != null) {
-            sum = sum + Long.parseLong(value.toString());
+            sum = sum + Double.parseDouble(value.toString());
         }
     }
 

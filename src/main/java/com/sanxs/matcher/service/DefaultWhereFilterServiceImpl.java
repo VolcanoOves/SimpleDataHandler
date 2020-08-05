@@ -83,23 +83,28 @@ public class DefaultWhereFilterServiceImpl<Data> implements WhereFilterService<D
 
     @Override
     public boolean validation(Data data, Where<Data> where) {
-        // 将where中的所有条件节点拿出来
-        Iterator<Where<Data>.WhereMatchFunctionWrapper> iterator = where.getWhereMatchFunctions().iterator();
-        // 默认是数据满足条件
-        boolean matchSuccess = true;
-        // 遍历进行条件匹配，类似于递归进行调用
-        while (iterator.hasNext()) {
-            // 拿到当前条件
-            Where<Data>.WhereMatchFunctionWrapper wrapper = iterator.next();
-            // 如果当前条件是AND拼接，那么与当前计算的值进行‘&&’运算
-            if (wrapper.getDelimiter().equals(WhereMatchDelimiterEnum.AND)) {
-                matchSuccess = matchSuccess && wrapper.getFunction().match(data);
-            } else {
-                // 如果当前条件是OR拼接，那么与当前计算的值进行‘||’运算
-                matchSuccess = matchSuccess || wrapper.getFunction().match(data);
+        try {
+            // 将where中的所有条件节点拿出来
+            Iterator<Where<Data>.WhereMatchFunctionWrapper> iterator = where.getWhereMatchFunctions().iterator();
+            // 默认是数据满足条件
+            boolean matchSuccess = true;
+            // 遍历进行条件匹配，类似于递归进行调用
+            while (iterator.hasNext()) {
+                // 拿到当前条件
+                Where<Data>.WhereMatchFunctionWrapper wrapper = iterator.next();
+                // 如果当前条件是AND拼接，那么与当前计算的值进行‘&&’运算
+                if (wrapper.getDelimiter().equals(WhereMatchDelimiterEnum.AND)) {
+                    matchSuccess = matchSuccess && wrapper.getFunction().match(data);
+                } else {
+                    // 如果当前条件是OR拼接，那么与当前计算的值进行‘||’运算
+                    matchSuccess = matchSuccess || wrapper.getFunction().match(data);
+                }
             }
+            // 返回是否匹配
+            return matchSuccess;
+        } catch (NullPointerException e) {
+            return false;
         }
-        // 返回是否匹配
-        return matchSuccess;
+
     }
 }
