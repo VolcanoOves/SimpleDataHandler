@@ -13,7 +13,7 @@ import java.util.List;
  * @Date: 2020/8/5
  * @Description:
  **/
-class MaxTest {
+public class MaxTest {
     @Test
     public void test() {
         Max<TestData, GroupTestData> count = new Max<>(TestData::getId, GroupTestData::setMaxId);

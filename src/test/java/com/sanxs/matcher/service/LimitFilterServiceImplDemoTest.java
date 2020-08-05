@@ -14,7 +14,7 @@ import java.util.List;
  * @Date: 2020/8/4
  * @Description:
  */
-class LimitFilterServiceImplDemoTest {
+public class LimitFilterServiceImplDemoTest {
 
     /**
      * 常见分页

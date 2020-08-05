@@ -13,7 +13,7 @@ import java.util.List;
  * @Date: 2020/8/5
  * @Description:
  **/
-class MinTest {
+public class MinTest {
     @Test
     public void test() {
         Sum<TestData, GroupTestData> count = new Sum<>(TestData::getId, GroupTestData::setMaxId);

@@ -13,7 +13,7 @@ import java.util.List;
  * @Date: 2020/8/5
  * @Description:
  **/
-class CountTest {
+public class CountTest {
     @Test
     public void test() {
         Count<TestData, GroupTestData> count = new Count<>(TestData::getId, GroupTestData::setCountId);

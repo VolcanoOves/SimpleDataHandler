@@ -13,7 +13,7 @@ import java.util.List;
  * @Date: 2020/8/5
  * @Description:
  **/
-class AvgTest {
+public class AvgTest {
     @Test
     public void test() {
         Avg<TestData, GroupTestData> avg = new Avg<>(TestData::getAge, GroupTestData::setAvgAge);

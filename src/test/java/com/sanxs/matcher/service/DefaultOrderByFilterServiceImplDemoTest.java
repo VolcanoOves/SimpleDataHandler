@@ -13,7 +13,7 @@ import java.util.List;
  * @Date: 2020/8/4
  * @Description:
  */
-class DefaultOrderByFilterServiceImplDemoTest {
+public class DefaultOrderByFilterServiceImplDemoTest {
     @Test
     public void singleOrder() {
         List<TestData> data = new LinkedList<>();

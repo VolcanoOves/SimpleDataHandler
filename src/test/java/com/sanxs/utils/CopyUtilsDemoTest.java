@@ -9,7 +9,7 @@ import org.junit.Test;
  * @Date: 2020/8/4
  * @Description:
  */
-class CopyUtilsDemoTest {
+public class CopyUtilsDemoTest {
 
     /**
      * 字段copy测试
