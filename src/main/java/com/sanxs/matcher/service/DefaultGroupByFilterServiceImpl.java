@@ -27,6 +27,10 @@ public class DefaultGroupByFilterServiceImpl<Data> implements GroupByFilterServi
         // 进行group匹配
         if (groupBy != null) {
 
+            if (groupBy.getGroupMatchFunctions().isEmpty()) {
+                throw new RuntimeException("分组字段最少1个");
+            }
+
             WhereFilterService<GroupData> whereFilterService = new DefaultWhereFilterServiceImpl<>();
 
             // 存放分组的数据

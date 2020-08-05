@@ -30,9 +30,9 @@ class DefaultGroupByFilterServiceImplTest {
         // 分组的字段
         groupBy.appendKey(TestData::getGender);
         // 分组的聚合字段
-        groupBy.appendAggregate(
-                Aggregates.max(TestData::getId, GroupTestData::setMaxId)
-        );
+        groupBy
+                .appendAggregate(Aggregates.max(TestData::getId, GroupTestData::setMaxId))
+                .appendAggregate(Aggregates.count(TestData::getId, GroupTestData::setCountId));
 
         List<TestData> data = new LinkedList<>();
         data.add(new TestData(1L, "张三", 26, 1));
@@ -44,8 +44,8 @@ class DefaultGroupByFilterServiceImplTest {
 
         List<TestData> answer = new LinkedList<>();
         // 聚合之后只显示分组字段与聚合字段
-        answer.add(new GroupTestData(null, null, null, 1, 2L, null, null));
-        answer.add(new GroupTestData(null, null, null, 0, 4L, null, null));
+        answer.add(new GroupTestData(null, null, null, 1, 2L, null, 2L));
+        answer.add(new GroupTestData(null, null, null, 0, 4L, null, 2L));
 
         Assertions.assertEquals(Arrays.toString(result.toArray()), Arrays.toString(answer.toArray()));
     }

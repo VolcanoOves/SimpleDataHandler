@@ -19,23 +19,10 @@ public class DefaultOrderByFilterServiceImpl<Data> implements OrderByFilterServi
     @Override
     @SuppressWarnings("unchecked")
     public void apply(List<Data> data, OrderBy<Data> orderBy, GroupBy<Data, ?> groupBy) {
-        if (orderBy != null) {
+        if (orderBy != null && !orderBy.getOrderMatchFunctions().isEmpty()) {
 
             // 检测排序字段是否合法
             this.validationOrderField(groupBy, orderBy);
-
-            if (groupBy != null) {
-                List<String> groupByFieldSet = new ArrayList<>();
-                List<String> aggregateFieldSet = new ArrayList<>();
-
-                for (GroupMatchFunction<Data, ?> groupMatchFunction : groupBy.getGroupMatchFunctions()) {
-                    groupByFieldSet.add(FunctionUtils.getClassFieldName(groupMatchFunction));
-                }
-
-                for (AbstractGroupByAggregateHandler<Data, ?, ?, ?> handler : groupBy.getAggregateHandlers()) {
-                    aggregateFieldSet.add(FunctionUtils.getClassFieldName(handler.getOut()));
-                }
-            }
 
             // 如果是没有进行分组
             data.sort((a, b) -> {
