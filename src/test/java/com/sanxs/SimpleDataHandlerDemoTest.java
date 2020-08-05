@@ -22,18 +22,20 @@ import java.util.List;
  */
 public class SimpleDataHandlerDemoTest {
 
-    private final static List<TestData> DATA_LIST;
     private final static DataHandler<TestData> DATA_HANDLER;
 
 
     static {
-        DATA_LIST = new LinkedList<>();
         DATA_HANDLER = new SimpleDataHandler<>();
+    }
 
-        DATA_LIST.add(new TestData(1L, "张三", 26, 1));
-        DATA_LIST.add(new TestData(2L, "李四", 28, 1));
-        DATA_LIST.add(new TestData(3L, "赵五", 28, 0));
-        DATA_LIST.add(new TestData(4L, "王六", 26, 0));
+    public List<TestData> getData() {
+        List<TestData> testData = new LinkedList<>();
+        testData.add(new TestData(1L, "张三", 26, 1));
+        testData.add(new TestData(2L, "李四", 28, 1));
+        testData.add(new TestData(3L, "赵五", 28, 0));
+        testData.add(new TestData(4L, "王六", 26, 0));
+        return testData;
     }
 
     /**
@@ -46,7 +48,7 @@ public class SimpleDataHandlerDemoTest {
         // ID > 1
         where.and(item -> item.getId() > 1);
 
-        List<TestData> result = DATA_HANDLER.query(DATA_LIST, where, null, null, null);
+        List<TestData> result = DATA_HANDLER.query(getData(), where, null, null, null);
 
         List<TestData> answer = new LinkedList<>();
         answer.add(new TestData(2L, "李四", 28, 1));
@@ -68,7 +70,7 @@ public class SimpleDataHandlerDemoTest {
                 .and(item -> item.getId() > 1)          // ID > 1
                 .and(item -> item.getGender() == 1);    // gender == 1
 
-        List<TestData> result = DATA_HANDLER.query(DATA_LIST, where, null, null, null);
+        List<TestData> result = DATA_HANDLER.query(getData(), where, null, null, null);
 
         List<TestData> answer = new LinkedList<>();
         answer.add(new TestData(2L, "李四", 28, 1));
@@ -92,7 +94,7 @@ public class SimpleDataHandlerDemoTest {
                 .appendAggregate(Aggregates.max(TestData::getId, GroupTestData::setMaxId))      // 最大ID
                 .appendAggregate(Aggregates.count(TestData::getId, GroupTestData::setCountId)); // 统计计数
 
-        List<TestData> result = DATA_HANDLER.query(DATA_LIST, null, null, groupBy, null);
+        List<TestData> result = DATA_HANDLER.query(getData(), null, null, groupBy, null);
 
         List<GroupTestData> answer = new LinkedList<>();
         answer.add(new GroupTestData(null, null, null, 1, 2L, 27d, 2L));
@@ -110,7 +112,7 @@ public class SimpleDataHandlerDemoTest {
         OrderBy<TestData> orderBy = new OrderBy<>();
         orderBy.appendDesc(TestData::getId);
 
-        List<TestData> result = DATA_HANDLER.query(DATA_LIST, null, orderBy, null, null);
+        List<TestData> result = DATA_HANDLER.query(getData(), null, orderBy, null, null);
 
         List<TestData> answer = new LinkedList<>();
 
@@ -129,7 +131,7 @@ public class SimpleDataHandlerDemoTest {
     public void limitTest() {
         Limit limit = new Limit(3, 1);
 
-        List<TestData> result = DATA_HANDLER.query(DATA_LIST, null, null, null, limit);
+        List<TestData> result = DATA_HANDLER.query(getData(), null, null, null, limit);
 
         List<TestData> answer = new LinkedList<>();
         answer.add(new TestData(4L, "王六", 26, 0));
