@@ -22,7 +22,6 @@ import java.util.List;
  */
 class SimpleDataHandlerDemoTest {
 
-    public static final int DATA_COUNT = 50;
     private final static List<TestData> DATA_LIST;
     private final static DataHandler<TestData> DATA_HANDLER;
 
@@ -133,7 +132,6 @@ class SimpleDataHandlerDemoTest {
         List<TestData> result = DATA_HANDLER.query(DATA_LIST, null, null, null, limit);
 
         List<TestData> answer = new LinkedList<>();
-
         answer.add(new TestData(4L, "王六", 26, 0));
 
         Assertions.assertEquals(Arrays.toString(answer.toArray()), Arrays.toString(result.toArray()));
