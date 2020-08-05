@@ -3,6 +3,7 @@ package com.sanxs.matcher.service;
 import cn.hutool.core.thread.ThreadFactoryBuilder;
 import com.sanxs.enums.WhereMatchDelimiterEnum;
 import com.sanxs.matcher.Where;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -15,13 +16,14 @@ import java.util.concurrent.*;
  * @Date: 2020/8/4
  * @Description: 条件筛选处理罗辑
  **/
+@Slf4j
 public class DefaultWhereFilterServiceImpl<Data> implements WhereFilterService<Data> {
 
     private final int processors = Runtime.getRuntime().availableProcessors();
     private final ThreadPoolExecutor executorService = new ThreadPoolExecutor(
             1,
             processors,
-            0L,
+            1000L,
             TimeUnit.MICROSECONDS,
             new LinkedBlockingQueue<>(9999),
             new ThreadFactoryBuilder().setNamePrefix("where-pool-%d").build(),
@@ -65,7 +67,6 @@ public class DefaultWhereFilterServiceImpl<Data> implements WhereFilterService<D
                 cursor = end;
                 futures.add(future);
             }
-
             for (Future<List<Data>> future : futures) {
                 try {
                     result.addAll(future.get());

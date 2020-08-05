@@ -49,9 +49,9 @@ public class SimpleDataHandlerDemoTest {
         List<TestData> result = DATA_HANDLER.query(DATA_LIST, where, null, null, null);
 
         List<TestData> answer = new LinkedList<>();
-        answer.add(new TestData(2L, "李四", 27, 1));
-        answer.add(new TestData(3L, "赵五", 27, 0));
-        answer.add(new TestData(4L, "王六", 28, 0));
+        answer.add(new TestData(2L, "李四", 28, 1));
+        answer.add(new TestData(3L, "赵五", 28, 0));
+        answer.add(new TestData(4L, "王六", 26, 0));
 
         Assert.assertEquals(Arrays.toString(answer.toArray()), Arrays.toString(result.toArray()));
     }
@@ -71,7 +71,7 @@ public class SimpleDataHandlerDemoTest {
         List<TestData> result = DATA_HANDLER.query(DATA_LIST, where, null, null, null);
 
         List<TestData> answer = new LinkedList<>();
-        answer.add(new TestData(2L, "李四", 27, 1));
+        answer.add(new TestData(2L, "李四", 28, 1));
 
         Assert.assertEquals(Arrays.toString(answer.toArray()), Arrays.toString(result.toArray()));
 
