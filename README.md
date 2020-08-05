@@ -1,5 +1,5 @@
-# SimpleDataHandler
-Ant Financial Exam for &lt;Veys@qq.com>
+# SimpleDataHandler 
+Ant Financial Exam for &lt;Veys@qq.com> [![codecov](https://codecov.io/gh/VolcanoOves/SimpleDataHandler/branch/master/graph/badge.svg)](https://codecov.io/gh/VolcanoOves/SimpleDataHandler)
 
 ## 项目介绍
 
