@@ -68,12 +68,14 @@ public class SimpleDataHandlerDemoTest {
 
         where
                 .and(item -> item.getId() > 1)          // ID > 1
-                .and(item -> item.getGender() == 1);    // gender == 1
+                .and(item -> item.getGender() == 1)     // gender == 1
+                .or(item -> item.getId() == 4);         // id == 4
 
         List<TestData> result = DATA_HANDLER.query(getData(), where, null, null, null);
 
         List<TestData> answer = new LinkedList<>();
         answer.add(new TestData(2L, "李四", 28, 1));
+        answer.add(new TestData(4L, "王六", 26, 0));
 
         Assert.assertEquals(Arrays.toString(answer.toArray()), Arrays.toString(result.toArray()));
 
@@ -139,4 +141,57 @@ public class SimpleDataHandlerDemoTest {
         Assert.assertEquals(Arrays.toString(answer.toArray()), Arrays.toString(result.toArray()));
     }
 
+    /**
+     * 在group情况下使用非group字段方式进行排序
+     */
+    @Test
+    public void errorGroupAndOrder() {
+        GroupBy<TestData, GroupTestData> groupBy = new GroupBy<>(GroupTestData.class);
+        groupBy.appendKey(TestData::getId);
+        groupBy.appendAggregate(Aggregates.max(TestData::getId, GroupTestData::setMaxId));
+
+        OrderBy<TestData> orderBy = new OrderBy<>();
+        orderBy.appendDesc(TestData::getAge);
+
+        Exception exception = null;
+        try {
+            DATA_HANDLER.query(getData(), null, orderBy, groupBy, null);
+        } catch (Exception e) {
+            exception = e;
+        }
+        Assert.assertNotNull(exception);
+
+    }
+
+    /**
+     * 空字段排序
+     */
+    @Test
+    public void nullFieldOrder() {
+        List<TestData> testData = getData();
+
+        testData.get(1).setId(null);
+        testData.get(3).setId(null);
+
+        OrderBy<TestData> orderBy = new OrderBy<>();
+        orderBy.appendDesc(TestData::getId);
+
+        DATA_HANDLER.query(testData, null, orderBy, null, null);
+    }
+
+    /**
+     * 0 分组报错
+     */
+    @Test
+    public void zeroGroup() {
+        GroupBy<TestData, GroupTestData> groupBy = new GroupBy<>(GroupTestData.class);
+
+        Exception exception = null;
+        try {
+            DATA_HANDLER.query(getData(), null, null, groupBy, null);
+        } catch (Exception e) {
+            exception = e;
+        }
+        Assert.assertNotNull(exception);
+    }
 }
