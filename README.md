@@ -27,7 +27,7 @@ public void handler(List<TestData> data){
     where.and((item) -> item.getAge() > 50);
 
     // 只需要传入条件字段即可完成筛选
-    List<TestData> result = dataDataHandler.query(data, where, null, null);
+    List<TestData> result = dataDataHandler.query(data, where, null, null, null);
 
 }
 ```
@@ -51,7 +51,7 @@ public void handler(List<TestData> data){
         .or((item) -> item.getGender() = 0);
 
     // 只需要传入条件字段即可完成筛选
-    List<TestData> result = dataDataHandler.query(data, where, null, null);
+    List<TestData> result = dataDataHandler.query(data, where, null, null, null);
 
 }
 ```
@@ -74,7 +74,7 @@ public void handler(List<TestData> data){
         .or((item) -> item.getGender() = 0);
 
     // 只需要传入条件字段即可完成筛选
-    List<TestData> result = dataDataHandler.query(data, where, null, null);
+    List<TestData> result = dataDataHandler.query(data, where, null, null, null);
 
 }
 ```
@@ -178,7 +178,7 @@ public void handler(List<TestData> data){
     // 否则会告知非法排序字段
     orderBy.appendAsc(GroupTestData::getCountId);
 
-    List<TestData> result = dataDataHandler.query(data, null, orderBy, groupBy, null );
+    List<TestData> result = dataDataHandler.query(data, null, orderBy, groupBy, null);
 }
 ```
 
