@@ -3,7 +3,7 @@ Ant Financial Exam for &lt;Veys@qq.com> [![codecov](https://codecov.io/gh/Volcan
 
 ## 项目介绍
 
-通过构造 Where&lt;T&gt;、Group&lt;T,GroupTestData extends T&gt;、OrderBy&lt;T&gt;、Limit对List&lt;T&gt;进行复杂条件筛选以及聚合数据统计。所有条件可以组合使用，初具SQL查询模型（夸张 - - ）。
+通过构造 Where&lt;T&gt;、Group&lt;T,GroupTestData extends T&gt;、OrderBy&lt;T&gt;、Limit对List&lt;T&gt;进行复杂条件筛选以及聚合数据统计。所有条件可以组合使用，详情可见SimpleDataHandlerTest.complexQuery()方法。
 
 ## 使用教程
 
