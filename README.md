@@ -111,7 +111,7 @@ public void handler(List<TestData> data){
         .appendAggregate(Aggregates.count(TestData::getId, GroupTestData::setCountId));
 
     // 只需要传入Group即可完成分组
-    List<TestData> result = dataDataHandler.query(data, null, groupBy, null);
+    List<TestData> result = dataDataHandler.query(data, null, null, groupBy, null);
     
     // 返回的结果为List<GroupTestData>,其中只有参与Group的字段与聚合字段才会被赋值，其他都是null或者初始值
 }
@@ -142,7 +142,7 @@ public void handler(List<TestData> data){
             .and(item -> item.getCountId() > 1);
 
     // 只需要传入Group即可完成分组
-    List<TestData> result = dataDataHandler.query(data, null, groupBy, null);
+    List<TestData> result = dataDataHandler.query(data, null, null, groupBy, null);
 }
 ```
 
@@ -178,7 +178,7 @@ public void handler(List<TestData> data){
     // 否则会告知非法排序字段
     orderBy.appendAsc(GroupTestData::getCountId);
 
-    List<TestData> result = dataDataHandler.query(data, orderBy, groupBy, null );
+    List<TestData> result = dataDataHandler.query(data, null, orderBy, groupBy, null );
 }
 ```
 
